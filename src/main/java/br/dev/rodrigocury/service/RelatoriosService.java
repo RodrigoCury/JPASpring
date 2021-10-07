@@ -24,10 +24,12 @@ public class RelatoriosService {
             System.out.println("O que Deseja Fazer: ");
             System.out.println("0 - Sair");
             System.out.println("1 - Busca Funcionarios Por Nome");
+            System.out.println("2 - Busca Funcionarios Por Nomes Parecidos ");
             String opcao = scanner.next();
             switch (opcao){
                 case "0" -> system = false;
                 case "1" -> buscaFuncionarioPorNome(scanner);
+                case "2" -> buscaFuncionarioPorNomeLike(scanner);
                 default -> System.out.println("Nenhuma opção Valida");
             }
         }
@@ -38,6 +40,14 @@ public class RelatoriosService {
         String nome = scanner.next();
 
         List<Funcionario> lista = funcionarioRepository.findByNome(nome);
+        lista.forEach(System.out::println);
+    }
+
+    private void buscaFuncionarioPorNomeLike(Scanner scanner) {
+        System.out.println("Qual o Nome do Funcionario: ");
+        String nome = "%" + scanner.next() + "%";
+
+        List<Funcionario> lista = funcionarioRepository.findByNomeLike(nome);
         lista.forEach(System.out::println);
     }
 }

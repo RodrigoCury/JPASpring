@@ -1,6 +1,7 @@
 package br.dev.rodrigocury.repository;
 
 import br.dev.rodrigocury.models.Funcionario;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +13,9 @@ import java.util.List;
 @Repository
 public interface FuncionarioRepository extends PagingAndSortingRepository<Funcionario, Integer> {
     List<Funcionario> findByNome(String nome);
+    List<Funcionario> findByNome(String nome, Pageable pageable);
     List<Funcionario> findByNomeLike(String nomeLike);
+    List<Funcionario> findByNomeLike(String nomeLike, Pageable pageable);
 
 
     @Query("SELECT f FROM Funcionario f " +

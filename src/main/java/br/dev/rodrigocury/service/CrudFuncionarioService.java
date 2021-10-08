@@ -33,7 +33,7 @@ public class CrudFuncionarioService {
 
     public void inicial(Scanner scanner){
         while (system) {
-            System.out.println("Cargo Selecionado: ");
+            System.out.println("Funcionario Selecionado: ");
             System.out.println("O que Deseja Fazer: ");
             System.out.println("0 - Sair");
             System.out.println("1 - Salvar");

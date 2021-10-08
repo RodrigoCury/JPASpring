@@ -27,12 +27,14 @@ public class RelatoriosService {
             System.out.println("1 - Busca Funcionarios Por Nome");
             System.out.println("2 - Busca Funcionarios Por Nomes Parecidos ");
             System.out.println("3 - Busca Funcionarios Por Nomes; Data Contratação ; Salario ");
+            System.out.println("4 - Busca Funcionarios Por Data Contratação");
             String opcao = scanner.next();
             switch (opcao){
                 case "0" -> system = false;
                 case "1" -> buscaFuncionarioPorNome(scanner);
                 case "2" -> buscaFuncionarioPorNomeLike(scanner);
                 case "3" -> buscaFuncionarioPorNomeSalarioEData(scanner);
+                case "4" -> buscaFuncionarioPorData(scanner);
                 default -> System.out.println("Nenhuma opção Valida");
             }
         }
@@ -79,5 +81,27 @@ public class RelatoriosService {
             }
         }
 
+    }
+
+    private void buscaFuncionarioPorData(Scanner scanner){
+        try {
+            System.out.println("Qual a Data de Entrada?");
+            System.out.println("Qual o Ano");
+            int ano = scanner.nextInt();
+            System.out.println("Qual o Mês(1-12)?");
+            int mes = scanner.nextInt();
+            System.out.println("Qual o dia?");
+            int dia = scanner.nextInt();
+            LocalDate data = LocalDate.of(ano, mes, dia);
+            List<Funcionario> funcionariosEncontrados = funcionarioRepository.findDataContratacaoMaior(data);
+            funcionariosEncontrados.forEach(System.out::println);
+        } catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Houve um erro! Tentar novamente (s/n)");
+            String tentarNovamente = scanner.next();
+            if (tentarNovamente.equals("s")){
+                buscaFuncionarioPorData(scanner);
+            }
+        }
     }
 }

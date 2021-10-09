@@ -1,6 +1,7 @@
 package br.dev.rodrigocury.repository;
 
 import br.dev.rodrigocury.models.Funcionario;
+import br.dev.rodrigocury.models.FuncionarioProjection;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -31,4 +32,6 @@ public interface FuncionarioRepository extends PagingAndSortingRepository<Funcio
     List<Funcionario> findDataContratacaoMaior(
             @Param("data") LocalDate data);
 
+    @Query(value = "SELECT f.id, f.nome, f.salario FROM funcionarios f ORDER BY f.salario DESC", nativeQuery = true)
+    List<FuncionarioProjection> findFuncionarioSalario();
 }

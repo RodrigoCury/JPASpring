@@ -28,6 +28,7 @@ public class RelatoriosService {
             System.out.println("2 - Busca Funcionarios Por Nomes Parecidos ");
             System.out.println("3 - Busca Funcionarios Por Nomes; Data Contratação ; Salario ");
             System.out.println("4 - Busca Funcionarios Por Data Contratação");
+            System.out.println("5 - Busca Funcionarios por maior salario");
             String opcao = scanner.next();
             switch (opcao){
                 case "0" -> system = false;
@@ -35,7 +36,27 @@ public class RelatoriosService {
                 case "2" -> buscaFuncionarioPorNomeLike(scanner);
                 case "3" -> buscaFuncionarioPorNomeSalarioEData(scanner);
                 case "4" -> buscaFuncionarioPorData(scanner);
+                case "5" -> listarPorSalario(scanner);
                 default -> System.out.println("Nenhuma opção Valida");
+            }
+        }
+    }
+
+    private void listarPorSalario(Scanner scanner) {
+        try {
+            funcionarioRepository.findFuncionarioSalario().forEach(funcionarioProjection -> {
+                System.out.println(String.format(
+                    "Nome: %s - id: %d - Salario: %s",
+                        funcionarioProjection.getNome(),
+                        funcionarioProjection.getId(),
+                        funcionarioProjection.getSalario()
+                ));
+            });
+        } catch (Exception e){
+            System.out.println("Houve um erro! Tntar novamente? (s/n)");
+            String escolha = scanner.next();
+            if(escolha.equals("s")){
+                listarPorSalario(scanner);
             }
         }
     }

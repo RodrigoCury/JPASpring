@@ -6,9 +6,13 @@ import br.dev.rodrigocury.models.UnidadeTrabalho;
 import br.dev.rodrigocury.repository.CargoRepository;
 import br.dev.rodrigocury.repository.FuncionarioRepository;
 import br.dev.rodrigocury.repository.UnidadeTrabalhoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +37,7 @@ public class CrudFuncionarioService {
 
     public void inicial(Scanner scanner){
         while (system) {
-            System.out.println("Cargo Selecionado: ");
+            System.out.println("Funcionario Selecionado: ");
             System.out.println("O que Deseja Fazer: ");
             System.out.println("0 - Sair");
             System.out.println("1 - Salvar");
@@ -47,7 +51,7 @@ public class CrudFuncionarioService {
                 case "1" -> salvar(scanner);
                 case "2" -> atualizar(scanner);
                 case "3" -> deletar(scanner);
-                case "4" -> listar();
+                case "4" -> listar(scanner);
                 case "5" -> listarPorIds(scanner);
                 default -> System.out.println("Nenhuma opção Valida");
             }
@@ -89,8 +93,25 @@ public class CrudFuncionarioService {
         System.out.println("Salvo!");
     }
 
-    public void listar(){
-        funcionarioRepository.findAll().forEach(System.out::println);
+    public void listar(Scanner scanner){
+        try {
+            System.out.println("Qual Página deseja visualizar? ");
+            int pagina = scanner.nextInt();
+            Pageable pageable = PageRequest.of(pagina, 1);
+            Page<Funcionario> funcionarios = funcionarioRepository.findAll(pageable);
+
+            System.out.println(funcionarios);
+            System.out.println("Pagina Atual: "+ funcionarios.getNumber());
+            funcionarios.forEach(System.out::println);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println("Quer fazer outra pesquisa?(s/n)");
+            String escolha = scanner.next();
+            if(escolha.equals("s")){
+                listar(scanner);
+            }
+        }
     }
 
     public void deletar(Scanner scanner){

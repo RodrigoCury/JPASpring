@@ -1,9 +1,6 @@
 package br.dev.rodrigocury.main;
 
-import br.dev.rodrigocury.service.CrudCargoService;
-import br.dev.rodrigocury.service.CrudFuncionarioService;
-import br.dev.rodrigocury.service.CrudUnidadeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.dev.rodrigocury.service.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,11 +22,15 @@ public class SpringDataApplication implements CommandLineRunner {
     private final CrudCargoService cargoService;
     private final CrudFuncionarioService funcionarioService;
     private final CrudUnidadeService unidadeService;
+    private final RelatoriosService relatoriosService;
+    private final RelatorioFuncionarioDinamico relatorioFuncionarioDinamico;
 
-    public SpringDataApplication(CrudCargoService service, CrudFuncionarioService funcionarioService, CrudUnidadeService unidadeService) {
+    public SpringDataApplication(CrudCargoService service, CrudFuncionarioService funcionarioService, CrudUnidadeService unidadeService, RelatoriosService relatoriosService, RelatorioFuncionarioDinamico relatorioFuncionarioDinamico) {
         this.cargoService = service;
         this.funcionarioService = funcionarioService;
         this.unidadeService = unidadeService;
+        this.relatoriosService = relatoriosService;
+        this.relatorioFuncionarioDinamico = relatorioFuncionarioDinamico;
     }
 
     public static void main(String[] args) {
@@ -46,6 +47,8 @@ public class SpringDataApplication implements CommandLineRunner {
             System.out.println("1 - Cargo");
             System.out.println("2 - Funcionario");
             System.out.println("3 - Unidade");
+            System.out.println("4 - Relatórios");
+            System.out.println("5 - Relatorios dinamicos Funcionario");
 
             String escolha = scanner.next();
 
@@ -57,6 +60,8 @@ public class SpringDataApplication implements CommandLineRunner {
                 case "1" -> cargoService.inicial(scanner);
                 case "2" -> funcionarioService.inicial(scanner);
                 case "3" -> unidadeService.inicial(scanner);
+                case "4" -> relatoriosService.inicial(scanner);
+                case "5" -> relatorioFuncionarioDinamico.iniciar(scanner);
                 default -> System.out.println("Selecione uma opção válida");
             }
         }
